@@ -1,4 +1,3 @@
-# main.py
 from window import GameWindow
 
 

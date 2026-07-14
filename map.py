@@ -1,4 +1,3 @@
-# map.py
 import math
 import random
 import pygame
@@ -12,7 +11,7 @@ class CaveMap:
         self.height = height
         map_size = (self.width, self.height)
 
-        # --- Procedural Tuning Panel ---
+
         self.TUNNEL_MIN_RADIUS = 15.0
         self.TUNNEL_MAX_RADIUS = 28.0
         self.TUNNEL_SWELL_SPEED = 0.1
@@ -26,7 +25,7 @@ class CaveMap:
         self.WALKER_STEPS = 800
         self.NUM_WALKERS = 5
 
-        # 1. Load raw textures and dynamically scale them to your gameplay area size
+
         try:
             raw_bg = pygame.image.load(constants.TEXTURE_WALLS).convert()
             raw_path = pygame.image.load(constants.TEXTURE_PATHS).convert()
@@ -39,45 +38,32 @@ class CaveMap:
             )
             raise e
 
-        # 2. Create the blank generation canvas (White paths, Black walls)
         self.cave_surface = pygame.Surface(map_size)
         self.cave_surface.fill((0, 0, 0))
 
-        # 3. Run the generator to trace out the layout paths
         self._generate_caves()
 
-        # 4. Compile the mask for player collision tracking
         ink_white = (255, 255, 255)
         self.mask = pygame.mask.from_threshold(
             self.cave_surface, ink_white, (1, 1, 1, 255)
         )
 
-        # 5. 🛠️ THE TEXTURE MASKING SETUP
-        # Start our final world canvas with the dark background/wall texture
         self.baked_surface = bg_texture.copy()
 
-        # Step A: Make a copy of the path texture that we will cut out
         isolated_paths = path_texture.copy()
 
-        # Step B: Prepare the stencil layer.
-        # Mark WHITE as the transparent colorkey on our wireframe map.
         stencil_layer = self.cave_surface.copy()
         stencil_layer.set_colorkey((255, 255, 255))
 
-        # Step C: Blit the stencil onto the path texture using MULTIPLY.
-        # This erases the light paper everywhere EXCEPT where the paths are drawn.
         isolated_paths.blit(
             stencil_layer, (0, 0), special_flags=pygame.BLEND_RGBA_MULT
         )
 
-        # Step D: Mark the leftover black area of the path layer as completely see-through
         isolated_paths.set_colorkey((0, 0, 0))
 
-        # Step E: Drop the cleanly cut out light parchment paths right over the dark wall texture!
         self.baked_surface.blit(isolated_paths, (0, 0))
 
     def _generate_caves(self):
-        """Generates the underlying cave wireframe."""
         ink_white = (255, 255, 255)
         center_x = self.width // 2
         center_y = self.height // 2
