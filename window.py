@@ -70,6 +70,7 @@ class GameWindow:
             self._handle_events()
             self._update(dt)
             self._draw()
+            print(self.clock.get_fps())
 
         pygame.quit()
         sys.exit()

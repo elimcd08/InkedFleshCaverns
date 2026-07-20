@@ -34,7 +34,7 @@ def load_game_assets():
     try:
         raw_player = pygame.image.load(resource_path(PATH_PLAYER_SPRITE))
         SPRITE_PLAYER = pygame.transform.scale(
-            raw_player.convert_alpha(), (24, 24)
+            raw_player.convert_alpha(), (32, 32)
         )
         FONT_MAIN = pygame.font.Font(resource_path(PATH_MAIN_FONT), 24)
         SOUND_BACKGROUND = pygame.mixer.Sound(resource_path(PATH_DEBT_MUSIC))
