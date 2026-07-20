@@ -1,0 +1,59 @@
+# ui.py
+import pygame
+import constants
+
+
+class JournalUI:
+    def __init__(self):
+        self.current_debt = 5000
+        self.target_creature = "Blind Stalker"
+        self.bounty_value = 1250
+
+        # 🗺️ SPACED WITHIN THE INITIAL SPAWN ZONE (Around center x: 400-500, y: 300-400)
+        self.notes = {
+            "debt_log": {
+                "text": f"BLACK MARKET DEBT: ${self.current_debt}",
+                "world_x": 380,
+                "world_y": 260,
+                "rotation": -3.5
+            },
+            "contract_log": {
+                "text": f"TARGET: {self.target_creature}",
+                "world_x": 350,
+                "world_y": 480,
+                "rotation": 2.0
+            },
+            "value_log": {
+                "text": f"MARKET VALUE: ${self.bounty_value}",
+                "world_x": 580,
+                "world_y": 360,
+                "rotation": -1.5
+            }
+        }
+
+        self.font = pygame.font.Font(constants.PATH_MAIN_FONT, 24)
+
+    def update_note_text(self, key, new_text):
+        if key in self.notes:
+            self.notes[key]["text"] = new_text
+
+    def draw(self, surface, camera):
+        COLOR_SKETCH_INK = (15, 12, 10)
+        COLOR_SHADOW_INK = (210, 195, 175)
+
+        for note_id, data in self.notes.items():
+            screen_pos = camera.apply((data["world_x"], data["world_y"]))
+
+            shadow_surface = self.font.render(data["text"], True, COLOR_SHADOW_INK)
+            rotated_shadow = pygame.transform.rotate(shadow_surface, data["rotation"])
+
+            text_surface = self.font.render(data["text"], True, COLOR_SKETCH_INK)
+            rotated_text = pygame.transform.rotate(text_surface, data["rotation"])
+
+            for dx, dy in [(-1, -1), (1, -1), (-1, 1), (1, 1), (0, 2)]:
+                surface.blit(
+                    rotated_shadow,
+                    (screen_pos[0] + dx, screen_pos[1] + dy)
+                )
+
+            surface.blit(rotated_text, screen_pos)

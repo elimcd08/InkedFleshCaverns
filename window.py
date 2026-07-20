@@ -5,6 +5,7 @@ from camera import Camera
 from player import Player
 
 from map import CaveMap
+from ui import JournalUI
 
 
 class GameWindow:
@@ -25,7 +26,7 @@ class GameWindow:
         self.MAP_HEIGHT = 2000
 
         self.player = Player(self.MAP_WIDTH // 2, self.MAP_HEIGHT // 2)
-
+        self.game_ui = JournalUI()
         self.camera = Camera(self.MAP_WIDTH, self.MAP_HEIGHT)
 
         self.shadow_surface = pygame.Surface((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), pygame.SRCALPHA)
@@ -82,6 +83,7 @@ class GameWindow:
     def _draw(self):
         self.screen.fill((0, 0, 0))
         self.cave_map.draw(self.screen, self.camera)
+        self.game_ui.draw(self.screen, self.camera)
         self.player.draw(self.screen, self.camera)
 
 
