@@ -23,6 +23,15 @@ class JournalUI:
         if key in self.notes:
             self.notes[key]["text"] = new_text
 
+    def add_note(self, note_id, text, x, y, rotation=-3.5):
+        """Helper to quickly drop new scrawls onto the page whenever you're ready."""
+        self.notes[note_id] = {
+            "text": text,
+            "world_x": x,
+            "world_y": y,
+            "rotation": rotation
+        }
+
     def draw(self, surface, camera):
         COLOR_SKETCH_INK = (15, 12, 10)
         COLOR_SHADOW_INK = (210, 195, 175)
