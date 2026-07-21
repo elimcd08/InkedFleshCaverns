@@ -5,9 +5,7 @@ import constants
 
 class JournalUI:
     def __init__(self):
-        self.current_debt = 5000
-        self.target_creature = "Blind Stalker"
-        self.bounty_value = 1250
+        self.current_debt = 50000
 
         # 🗺️ SPACED WITHIN THE INITIAL SPAWN ZONE (Around center x: 400-500, y: 300-400)
         self.notes = {
@@ -16,22 +14,10 @@ class JournalUI:
                 "world_x": 380,
                 "world_y": 260,
                 "rotation": -3.5
-            },
-            "contract_log": {
-                "text": f"TARGET: {self.target_creature}",
-                "world_x": 350,
-                "world_y": 480,
-                "rotation": 2.0
-            },
-            "value_log": {
-                "text": f"MARKET VALUE: ${self.bounty_value}",
-                "world_x": 580,
-                "world_y": 360,
-                "rotation": -1.5
             }
         }
 
-        self.font = pygame.font.Font(constants.PATH_MAIN_FONT, 24)
+        self.font = pygame.font.Font(constants.PATH_MAIN_FONT, 32)
 
     def update_note_text(self, key, new_text):
         if key in self.notes:
